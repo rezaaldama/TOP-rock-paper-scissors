@@ -4,13 +4,9 @@ let getComputerChoice = function () {
     let computerChoice = Math.floor((Math.random() * 3) + 1);
 
     // Convert the random number into a game choice
-    if (computerChoice == 1) {
-        return 'ROCK';
-    } else if (computerChoice == 2) {
-        return 'PAPER';
-    } else  if (computerChoice == 3) {
-        return 'SCISSORS';
-    }
+    if (computerChoice == 1) return 'ROCK';
+    if (computerChoice == 2) return 'PAPER';
+    if (computerChoice == 3) return 'SCISSORS';
 }
 
 // Create a function to get the human choice 
@@ -19,11 +15,7 @@ let getHumanChoice = function () {
     let humanChoice = prompt('Make a choice: ', null);   
     
     // Normalize the user input
-    if (humanChoice != null) {
-        humanChoice = humanChoice.toUpperCase();
-    }
-
-    return humanChoice;
+    if (humanChoice != null) return humanChoice.toUpperCase();
 }
 
 // Create a function to play a single round
@@ -31,8 +23,10 @@ let playRound = function () {
     const humanChoice = getHumanChoice();
     const computerChoice = getComputerChoice(); 
 
+    // Print the randomized computer input
     console.log(`Computer chooses ${computerChoice}`);
 
+    // Decide the winner
     if (humanChoice == computerChoice) {
         console.log('Draw!');
         return null;
