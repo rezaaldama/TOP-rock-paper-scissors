@@ -1,4 +1,10 @@
-// Create a function to get the computer choice
+const btnRock = document.querySelector('#btn-rock')
+const btnPaper = document.querySelector('#btn-paper')
+const btnScissors = document.querySelector('#btn-scissors')
+btnRock.onclick = () => playRound('ROCK')
+btnPaper.onclick = () => playRound('PAPER')
+btnScissors.onclick = () => playRound('SCISSORS')
+
 let getComputerChoice = function () {
     // Generate a random number: 1, 2, or 3
     let computerChoice = Math.floor(Math.random() * 3 + 1)
@@ -9,59 +15,37 @@ let getComputerChoice = function () {
     if (computerChoice == 3) return 'SCISSORS'
 }
 
-// Create a function to get the human choice
-let getHumanChoice = function () {
-    // Prompt the user for input
-    let humanChoice = prompt('Make a choice: ', null)
-
-    // Normalize the user input
-    if (humanChoice != null) return humanChoice.toUpperCase()
-}
-
+let humanScore = 0
+let computerScore = 0
 // Create a function to play a single round
-let playRound = function () {
-    const humanChoice = getHumanChoice()
+let playRound = function (humanChoice) {
     const computerChoice = getComputerChoice()
 
-    // Print the randomized computer input
-    console.log(`Computer chooses ${computerChoice}`)
-
-    // Decide the winner
+    // Decide the round winner
+    const notification = document.querySelector('#notification')
+    notification.textContent = `Computer chooses ${computerChoice}`
     if (humanChoice == computerChoice) {
-        console.log('Draw!')
-        return null
-    }
-
-    if (
+        notification.textContent += `\nDraw!`
+    } else if (
         (humanChoice == 'ROCK' && computerChoice == 'SCISSORS') ||
         (humanChoice == 'PAPER' && computerChoice == 'ROCK') ||
         (humanChoice == 'SCISSORS' && computerChoice == 'PAPER')
     ) {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}`)
-        return 'Human'
+        humanScore++
+        notification.textContent += `\nYou win! ${humanChoice} beats ${computerChoice}`
     } else {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}`)
-        return 'Computer'
-    }
-}
-
-// Create a function to play multiple rounds
-let playGame = function (rounds = 0) {
-    let humanScore = 0
-    let computerScore = 0
-
-    while (rounds > 0) {
-        const winner = playRound()
-
-        if (winner == 'Human') humanScore++
-        if (winner == 'Computer') computerScore++
-
-        rounds--
+        computerScore++
+        notification.textContent += `\nYou lose! ${computerChoice} beats ${humanChoice}`
     }
 
-    console.log(
-        `Final score for human: ${humanScore}, computer: ${computerScore}`
-    )
+    // Decide the game winner
+    const scoreboard = document.querySelector('#scoreboard')
+    scoreboard.textContent = `Final score for human: ${humanScore}, computer: ${computerScore}`
+    if (humanScore == 5 || computerScore == 5) {
+        humanScore > computerScore
+            ? (notification.textContent += `\nHuman win!`)
+            : (notification.textContent += `\nComputer win!`)
+        humanScore = 0
+        computerScore = 0
+    }
 }
-
-playGame(5)
